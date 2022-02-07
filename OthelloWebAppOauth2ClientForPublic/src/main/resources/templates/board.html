@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0">
+  <link rel='stylesheet' th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <link rel='stylesheet' th:href="@{/css/custom.css}">
+
+  <title th:text="#{othellogame}"></title>
+  
+</head>
+
+<body>
+	<header class="pt-1 pb-2">
+		<div class="container text-center">
+			<h1><a th:href="@{/othello/homepage}"><img th:src="@{/images/logo.png}" alt="Simple Othello"></a></h1>
+		</div>
+	</header>
+	
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+		<div class="container">
+			<a class="navbar-brand" th:href="@{/othello/homepage}" th:text="#{sitename}"></a>
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-content">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbar-content">
+				<th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='normal'} ? 'active'" th:href="@{/othello/board/graphic/normal?type=registered}" th:text="#{normal}"></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='mican'} ? 'active'" th:href="@{/othello/board/graphic/mican?type=registered}" th:text="#{mican}"></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='ai'} ? 'active'" th:href="@{/othello/board/graphic/ai?type=registered}" th:text="#{ai}"></a>
+						</li>
+					</ul>
+				</th:block>
+				<th:block th:unless="${#authorization.expression('hasRole(''USER'')')}">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='normal'} ? 'active'" th:href="@{/othello/board/graphic/normal?type=anonymous}" th:text="#{normal}"></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='mican'} ? 'active'" th:href="@{/othello/board/graphic/mican?type=anonymous}" th:text="#{mican}"></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='ai'} ? 'active'" th:href="@{/othello/board/graphic/ai?type=anonymous}" th:text="#{ai}"></a>
+						</li>
+					</ul>				
+				</th:block>
+				
+				<ul class="navbar-nav my-1 mx-md-1">
+					<li class="nav-item">
+						<th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
+							<a class="nav-link btn btn-info" th:href="@{/logout}" th:text="#{logout}"></a>
+						</th:block>
+						<th:block th:unless="${#authorization.expression('hasRole(''USER'')')}">
+							<th:block th:if="${othelloMode=='normal'}">			
+								<a class="nav-link btn btn-info" th:href="@{/othello/board/graphic/normal?type=registered}" th:text="#{login}"></a>
+							</th:block>
+							<th:block th:if="${othelloMode=='mican'}">			
+								<a class="nav-link btn btn-info" th:href="@{/othello/board/graphic/mican?type=registered}" th:text="#{login}"></a>
+							</th:block>
+							<th:block th:if="${othelloMode=='ai'}">			
+								<a class="nav-link btn btn-info" th:href="@{/othello/board/graphic/ai?type=registered}" th:text="#{login}"></a>
+							</th:block>														
+						</th:block>
+					</li>
+				</ul>
+				
+				<ul class="navbar-nav my-1 mx-md-1">
+					<li class="nav-item">
+						<th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
+							<a class="nav-link btn btn-info" th:href="@{/othello/about?type=registered}" th:text="#{toppageimage}"></a>
+						</th:block>
+						<th:block th:unless="${#authorization.expression('hasRole(''USER'')')}">
+							<a class="nav-link btn btn-info" th:href="@{/othello/about?type=anonymous}" th:text="#{toppageimage}"></a>
+						</th:block>						
+					</li>				
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<main>
+		<th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
+			<th:block th:if="${othelloMode=='ai'}">			
+			  <div class="pt-3 pb-2">
+				  <div class="container">
+				    <div class="row justify-content-around">
+					  <div class="col-3 col-md-2 text-center"><span class="lead"><span id="winLabel" class="badge badge-info"><span id="winNum" th:text="${winNum}"></span> <span th:text="#{win}"></span></span></span></div>
+				 	  <div class="col-3 col-md-2 text-center"><span class="lead"><span id="drawLabel" class="badge badge-info"><span id="drawNum" th:text="${drawNum}"></span> <span th:text="#{draw}"></span></span></span></div>
+				 	  <div class="col-3 col-md-2 text-center"><span class="lead"><span id="loseLabel" class="badge badge-info"><span id="loseNum" th:text="${loseNum}"></span> <span th:text="#{lose}"></span></span></span></div>
+				 	</div>
+				  </div>
+			  </div>
+			</th:block>														
+		</th:block>
+		
+	  <div class="pt-3 pb-2">
+		  <div class="container">
+		    <div class="row justify-content-around">
+			  <div class="col-3 col-md-2"><div id="blackStoneLabel"><span th:text="#{black_first_letter}"></span><div id="blackStoneNum"></div></div></div>
+		 	  <div class="col-3 col-md-2"><div id="whiteStoneLabel"><span th:text="#{white_first_letter}"></span><div id="whiteStoneNum"></div></div></div>
+		 	</div>
+		  </div>
+	  </div>
+	  
+	  <div class="othellogrid"></div>
+
+	  <div class="py-2">	  
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-md-6 my-1">
+		        <!-- <button class="btn btn-secondary btn-lg btn-block shadow-lg" onclick="getHint();">ヒント</button> -->
+		        <button id="hintButton" class="btn btn-secondary btn-lg btn-block shadow-lg" th:text="#{hint}"></button>
+		      </div>
+		      <div class="col-md-6 my-1">
+		      	<!-- <button class="btn btn-secondary btn-lg btn-block shadow-lg" onclick="restartGame();">始めから</button> -->
+		        <button id="restartGameButton" class="btn btn-secondary btn-lg btn-block shadow-lg" th:text="#{restart}"></button>
+		      </div>
+		    </div>
+		  </div>
+	  </div>
+	</main>
+  
+    <script type="text/javascript" th:inline="javascript">
+      /*<![CDATA[*/
+         var othelloMode = /*[[${othelloMode}]]*/ 'normal';
+      	 var type = /*[[${type}]]*/ 'anonymous';
+      	 var strings = new Array();
+      	 strings['settings.gameover.message'] = /*[[#{settings.gameover.message}]]*/ 'Game is over. Game will be restarted.';
+       /*]]>*/
+    </script>
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>  
+	<script type="text/javascript" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/board.js}"></script>
+  
+</body>
+</html>

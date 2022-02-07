@@ -1,0 +1,121 @@
+.othellogrid {
+    display: grid;
+    grid-gap: 0;
+    grid-template-columns: repeat(8, [col] 9vmin);
+    grid-template-rows: repeat(8, [row] 9vmin);
+    width: 72vmin;
+    height: 72vmin;
+    border: 0.3vmin solid #000;
+    box-shadow: 0 0.5vmin 0.8vmin #777;
+    justify-content: center;
+    align-content: center;
+    margin: 2vmin auto;
+    background: rgb(91, 192, 222);
+}
+
+.othellodisc {
+	width: 7vmin;
+	height: 7vmin;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	margin: 1vmin 1vmin;
+}
+
+@media screen and (min-width: 600px) {
+	.othellogrid {
+	    display: grid;
+	    grid-gap: 0;
+	    grid-template-columns: repeat(8, [col] 7vmin);
+	    grid-template-rows: repeat(8, [row] 7vmin);
+	    width: 56vmin;
+	    height: 56vmin;
+	    border: 0.3vmin solid #000;
+	    box-shadow: 0 0.5vmin 0.8vmin #777;
+	    justify-content: center;
+	    align-content: center;
+	    margin: 2vmin auto;
+	    background: rgb(91, 192, 222);
+	}
+	
+	.othellodisc {
+		width: 5vmin;
+		height: 5vmin;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		border-radius: 50%;
+		margin: 1vmin 1vmin;
+	}
+}
+
+.othellogrid > div {
+	border: 0.1vmin solid #000;
+}
+
+.bg-slider {
+  width: 100vw;
+  height: 100vh;
+  background-position:center center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.border-10 {
+    border-width: 10px !important;
+}
+
+/* .board-main-backgroud {
+	background-image: url(../images/);  
+	width: 100vw;
+	background-position:center center;
+	background-size: cover;
+	display: flex;
+} */
+
+/* .bg-slider-title {
+  text-align:center;
+  color: #fff;
+  font-size: 32px;
+  font-weight: bold;
+} */
+
+.top-page-background-title {
+	background-color: rgba(255,255,255,0.8);
+}
+
+.top-page-background {
+	background-color: rgba(255,255,255,0.7);
+}
+
+section {
+	margin-top: -100px;
+	padding-top: 100px;
+}
+
+/* .bgCarousel {
+	width: 100vw;
+	height: 56.25vw;	
+}
+
+.bgCarousel__item {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 100%;
+	height: 100%;
+} */
+
+
+/* .foreground{
+    position: absolute;
+	width: 100%;
+	height: 56.25vw;
+    z-index: 1;	
+}
+
+.background{
+	position: relative;
+}
+ */

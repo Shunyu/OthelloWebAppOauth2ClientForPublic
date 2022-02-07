@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0">
+	<link rel='stylesheet' th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel='stylesheet' th:href="@{/css/custom.css}">
+
+	<title th:text="#{top_page_title}"></title>
+</head>
+<body>
+	<div class="bg-slider">
+		<div class="container">
+			<div class="row justify-content-center py-5">
+				<div class="col-6 col-md-4 pt-1 pb-3 top-page-background-title rounded text-center"><img class="img-fluid" th:src="@{/images/logo.png}" alt="Simple Othello"></div>
+	   		</div>
+			<div class="row justify-content-around py-5">
+				<th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
+					<a th:href="@{/othello/board/graphic/normal?type=registered}" class="col-6 col-md-3 btn top-page-background shadow-lg my-2 py-2 border border-info" th:text="#{normalmodeothello}"></a>			
+					<div class="w-100 d-block d-md-none"></div>
+					<a th:href="@{/othello/board/graphic/mican?type=registered}" class="col-6 col-md-3 btn top-page-background shadow-lg my-2 py-2 border border-info" th:text="#{micanmodeothello}"></a>
+					<div class="w-100 d-block d-md-none"></div>
+					<a th:href="@{/othello/board/graphic/ai?type=registered}" class="col-6 col-md-3 btn top-page-background shadow-lg my-2 py-2 border border-info" th:text="#{aimodeothello}"></a>
+				</th:block>
+				<th:block th:unless="${#authorization.expression('hasRole(''USER'')')}">
+					<a th:href="@{/othello/board/graphic/normal?type=anonymous}" class="col-6 col-md-3 btn top-page-background shadow-lg my-2 py-2 border border-info" th:text="#{normalmodeothello}"></a>			
+					<div class="w-100 d-block d-md-none"></div>
+					<a th:href="@{/othello/board/graphic/mican?type=anonymous}" class="col-6 col-md-3 btn top-page-background shadow-lg my-2 py-2 border border-info" th:text="#{micanmodeothello}"></a>
+					<div class="w-100 d-block d-md-none"></div>
+					<a th:href="@{/othello/board/graphic/ai?type=anonymous}" class="col-6 col-md-3 btn top-page-background shadow-lg my-2 py-2 border border-info" th:text="#{aimodeothello}"></a>
+				</th:block>							
+			</div>
+		</div>
+	</div>
+
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.bgswitcher.js}"></script>
+	<script type="text/javascript" th:src="@{/js/index.js}"></script>
+</body>
+</html>

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0">
+  <link rel='stylesheet' th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <link rel='stylesheet' th:href="@{/css/custom.css}">
+
+  <title th:text="#{toppageimage}"></title>
+</head>
+<body>
+	<header class="pt-1 pb-2">
+		<div class="container text-center">
+			<h1><a th:href="@{/othello/homepage}"><img th:src="@{/images/logo.png}" alt="Simple Othello"></a></h1>
+		</div>
+	</header>
+	
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+		<div class="container">
+			<a class="navbar-brand" th:href="@{/othello/homepage}" th:text="#{sitename}"></a>
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-content">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbar-content">
+				<th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='normal'} ? 'active'" th:href="@{/othello/board/graphic/normal?type=registered}" th:text="#{normal}"></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='mican'} ? 'active'" th:href="@{/othello/board/graphic/mican?type=registered}" th:text="#{mican}"></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='ai'} ? 'active'" th:href="@{/othello/board/graphic/ai?type=registered}" th:text="#{ai}"></a>
+						</li>
+					</ul>
+				</th:block>
+				<th:block th:unless="${#authorization.expression('hasRole(''USER'')')}">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='normal'} ? 'active'" th:href="@{/othello/board/graphic/normal?type=anonymous}" th:text="#{normal}"></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='mican'} ? 'active'" th:href="@{/othello/board/graphic/mican?type=anonymous}" th:text="#{mican}"></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-center" th:classappend="${othelloMode=='ai'} ? 'active'" th:href="@{/othello/board/graphic/ai?type=anonymous}" th:text="#{ai}"></a>
+						</li>
+					</ul>				
+				</th:block>
+				
+				<ul class="navbar-nav my-1 mx-md-1">
+					<li class="nav-item">
+						<th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
+							<a class="nav-link btn btn-info" th:href="@{/logout}" th:text="#{logout}"></a>
+						</th:block>
+						<th:block th:unless="${#authorization.expression('hasRole(''USER'')')}">
+							<a class="nav-link btn btn-info" th:href="@{/othello/about?type=registered}" th:text="#{login}"></a>												
+						</th:block>
+					</li>
+				</ul>
+				
+				<ul class="navbar-nav my-1 mx-md-1">
+					<li class="nav-item">
+						<th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
+							<a class="nav-link btn btn-info" th:href="@{/othello/about?type=registered}" th:text="#{toppageimage}"></a>
+						</th:block>
+						<th:block th:unless="${#authorization.expression('hasRole(''USER'')')}">
+							<a class="nav-link btn btn-info" th:href="@{/othello/about?type=anonymous}" th:text="#{toppageimage}"></a>
+						</th:block>						
+					</li>				
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
+
+	<div class="py-4">
+		<div class="container">
+			<div id="main_visual" class="carousel slide" data-ride="carousel">
+				<ol class="carousel-indicators">
+					<li data-target="#main_visual" data-slide-to="0" class="active"></li>
+					<li data-target="#main_visual" data-slide-to="1"></li>
+					<li data-target="#main_visual" data-slide-to="2"></li>
+					<li data-target="#main_visual" data-slide-to="3"></li>
+					<li data-target="#main_visual" data-slide-to="4"></li>
+					<li data-target="#main_visual" data-slide-to="5"></li>
+					<li data-target="#main_visual" data-slide-to="6"></li>
+					<li data-target="#main_visual" data-slide-to="7"></li>
+					<li data-target="#main_visual" data-slide-to="8"></li>
+					<li data-target="#main_visual" data-slide-to="9"></li>
+					<li data-target="#main_visual" data-slide-to="10"></li>
+					<li data-target="#main_visual" data-slide-to="11"></li>																
+				</ol>
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<a href="#chichibugahamabeach">
+							<img class="img-fluid" th:src="@{/images/ChichibugahamaBeach.jpg}" alt="">
+							<div class="carousel-caption d-none d-md-block">
+								<h2 th:text="#{chichibugahamabeach}"></h2>
+							</div>
+						</a>
+					</div>
+					<div class="carousel-item">
+						<a href="#greatsetobridge">					
+							<img class="img-fluid" th:src="@{/images/GreatSetoBridge.jpg}" alt="">
+							<div class="carousel-caption d-none d-md-block">
+								<h2 th:text="#{greatsetobridge}"></h2>
+							</div>
+						</a>				
+					</div>
+					<div class="carousel-item">
+						<a href="#kirosanobservatory">					
+							<img class="img-fluid" th:src="@{/images/Kiro-sanObservatory.jpeg}" alt="">
+							<div class="carousel-caption d-none d-md-block">
+								<h2 th:text="#{kiro-sanobservatory}"></h2>
+							</div>
+						</a>
+					</div>
+					<div class="carousel-item">
+						<a href="#marugamecastle">					
+							<img class="img-fluid" th:src="@{/images/MarugameCastle.jpg}" alt="">
+							<div class="carousel-caption d-none d-md-block">
+								<h2 th:text="#{marugamecastle}"></h2>
+							</div>
+						</a>
+					</div>
+					<div class="carousel-item">
+						<a href="#matsuyamacastle">					
+							<img class="img-fluid" th:src="@{/images/MatsuyamaCastle.jpg}" alt="">
+							<div class="carousel-caption d-none d-md-block">						
+								<h2 th:text="#{matsuyamacastle}"></h2>
+							</div>
+						</a>
+					</div>
+					<div class="carousel-item">
+						<a href="#mimido">					
+							<img class="img-fluid" th:src="@{/images/Mimido.jpeg}" alt="">
+							<div class="carousel-caption d-none d-md-block">						
+								<h2 th:text="#{mimido}"></h2>
+							</div>
+						</a>
+					</div>
+					<div class="carousel-item">
+						<a href="#mtiino">					
+							<img class="img-fluid" th:src="@{/images/MtIino.jpg}" alt="">
+							<div class="carousel-caption d-none d-md-block">						
+								<h2 th:text="#{mtiino}"></h2>
+							</div>
+						</a>
+					</div>
+					<div class="carousel-item">
+						<a href="#mtshiude">					
+							<img class="img-fluid" th:src="@{/images/MtShiude.jpg}" alt="">
+							<div class="carousel-caption d-none d-md-block">						
+								<h2 th:text="#{mtshiude}"></h2>
+							</div>
+						</a>
+					</div>
+					<div class="carousel-item">
+						<a href="#nanaore">
+							<img class="img-fluid" th:src="@{/images/Nanaore.jpeg}" alt="">
+							<div class="carousel-caption d-none d-md-block">						
+								<h2 th:text="#{nanaore}"></h2>
+							</div>
+						</a>
+					</div>
+					<div class="carousel-item">
+						<a href="#shikokukarst">					
+							<img class="img-fluid" th:src="@{/images/ShikokuKarst.jpeg}" alt="">
+							<div class="carousel-caption d-none d-md-block">						
+								<h2 th:text="#{shikokukarst}"></h2>
+							</div>
+						</a>
+					</div>
+					<div class="carousel-item">
+						<a href="#shimonadastation">					
+							<img class="img-fluid" th:src="@{/images/ShimonadaStation.jpeg}" alt="">
+							<div class="carousel-caption d-none d-md-block">						
+								<h2 th:text="#{shimonadastation}"></h2>
+							</div>
+						</a>
+					</div>
+					<div class="carousel-item">
+						<a href="#yashima">					
+							<img class="img-fluid" th:src="@{/images/Yashima.jpg}" alt="">
+							<div class="carousel-caption d-none d-md-block">						
+								<h2 th:text="#{yashima}"></h2>
+							</div>
+						</a>
+					</div>																														
+				</div>
+				
+				<a class="carousel-control-prev" href="#main_visual" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="sr-only">前の画像へ</span>
+				</a>
+				
+				<a class="carousel-control-next" href="#main_visual" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="sr-only">次の画像へ</span>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="py-4 bg-light">
+		<section id="chichibugahamabeach">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/ChichibugahamaBeach.jpg}" alt="">
+					</div>
+					<div class="col-md-7">
+					
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{chichibugahamabeach}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{chichibugahamabeach_address}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{chichibugahamabeach_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{chichibugahamabeach_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>					
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<div class="py-4 bg-light">
+		<section id="greatsetobridge">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/GreatSetoBridge.jpg}" alt="">
+					</div>
+					<div class="col-md-7">
+
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{greatsetobridge}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{greatsetobridge_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{greatsetobridge_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{greatsetobridge_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+			
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>
+
+	<div class="py-4 bg-light">
+		<section id="kirosanobservatory">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/Kiro-sanObservatory.jpeg}" alt="">
+					</div>
+					<div class="col-md-7">
+					
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{kiro-sanobservatory}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{kiro-sanobservatory_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{kiro-sanobservatory_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{kiro-sanobservatory_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+				
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>
+	
+	<div class="py-4 bg-light">
+		<section id="marugamecastle">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/MarugameCastle.jpg}" alt="">
+					</div>
+					<div class="col-md-7">
+
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{marugamecastle}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{marugamecastle_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{marugamecastle_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{marugamecastle_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+				
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>
+
+	<div class="py-4 bg-light">
+		<section id="matsuyamacastle">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/MatsuyamaCastle.jpg}" alt="">
+					</div>
+					<div class="col-md-7">
+					
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{matsuyamacastle}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{matsuyamacastle_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{matsuyamacastle_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{matsuyamacastle_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+											
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>
+
+	<div class="py-4 bg-light">
+		<section id="mimido">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/Mimido.jpeg}" alt="">
+					</div>
+					<div class="col-md-7">
+					
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{mimido}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{mimido_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{mimido_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{mimido_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+											
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>	
+	
+	<div class="py-4 bg-light">
+		<section id="mtiino">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/MtIino.jpg}" alt="">
+					</div>
+					<div class="col-md-7">
+					
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{mtiino}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{mtiino_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{mtiino_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{mtiino_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+															
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>
+
+	<div class="py-4 bg-light">
+		<section id="mtshiude">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/MtShiude.jpg}" alt="">
+					</div>
+					<div class="col-md-7">
+					
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{mtshiude}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{mtshiude_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{mtshiude_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{mtshiude_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+															
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>
+
+	<div class="py-4 bg-light">
+		<section id="nanaore">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/Nanaore.jpeg}" alt="">
+					</div>
+					<div class="col-md-7">
+					
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{nanaore}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{nanaore_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{nanaore_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{nanaore_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+																
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>
+	
+	<div class="py-4 bg-light">
+		<section id="shikokukarst">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/ShikokuKarst.jpeg}" alt="">
+					</div>
+					<div class="col-md-7">
+					
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{shikokukarst}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{shikokukarst_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{shikokukarst_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{shikokukarst_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+														
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>
+
+	<div class="py-4 bg-light">
+		<section id="shimonadastation">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/ShimonadaStation.jpeg}" alt="">
+					</div>
+					<div class="col-md-7">
+					
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{shimonadastation}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{shimonadastation_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{shimonadastation_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{shimonadastation_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+										
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>
+
+	<div class="py-4 bg-light">
+		<section id="yashima">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<img class="img-fluid" th:src="@{/images/Yashima.jpg}" alt="">
+					</div>
+					<div class="col-md-7">
+					
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th th:text="#{place}"></th>
+									<td th:text="#{yashima}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{address}"></th>
+									<td th:text="#{yashima_address}"></td>
+								</tr>								
+								<tr>
+									<th th:text="#{access}"></th>
+									<td th:text="#{yashima_access}"></td>
+								</tr>
+								<tr>
+									<th th:text="#{localspecialities}"></th>
+									<td th:text="#{yashima_localspecialities}"></td>
+								</tr>
+							</tbody>
+						</table>
+				
+					</div>
+				</div>
+			</div>		
+		</section>
+	</div>		
+	
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>  
+	<script type="text/javascript" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>	
+	
+</body>
+</html>

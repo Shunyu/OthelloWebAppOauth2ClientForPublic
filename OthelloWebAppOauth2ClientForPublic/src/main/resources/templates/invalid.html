@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0">
+	<link rel='stylesheet' th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel='stylesheet' th:href="@{/css/custom.css}">
+
+	<title>Invalid</title>
+</head>
+<body>
+	
+	
+	<div class="container">
+		<div class="row py-2">
+			<div class="col-12 text-center">
+				<p>リクエストのURLが正しくありません。</p>
+			</div>
+		</div>
+		<div class="row justify-content-around py-2">
+			<a th:href="@{/othello/homepage}" class="col-12 btn btn-info">トップページに戻る</a>
+		</div>
+	</div>
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
