@@ -6,6 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+/**
+ * 画面表示されるメッセージの国際化対応を行うクラス
+ * @author shunyu
+ *
+ */
 @Configuration
 public class MessageConfig {
 	

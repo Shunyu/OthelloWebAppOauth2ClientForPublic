@@ -9,6 +9,12 @@ import org.springframework.web.client.RestTemplate;
 import com.beautifulsetouchi.AiOthelloGameClientServer.models.AiOthelloRequestResource;
 import com.beautifulsetouchi.AiOthelloGameClientServer.models.AiOthelloResponseResource;
 
+/**
+ * AIオセロサーバーに直接リクエストを転送する際に利用するクラス
+ * 未ログインの場合にはこちら。
+ * @author shunyu
+ *
+ */
 @Service 
 public class AiOthelloService {
 

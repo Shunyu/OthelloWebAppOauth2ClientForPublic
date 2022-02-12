@@ -30,6 +30,15 @@ import com.beautifulsetouchi.AiOthelloGameClientServer.services.AiOthelloService
 
 import reactor.core.publisher.Mono;
 
+/**
+ * ログイン後盤面画面（AIモード）では対戦成績も表示されるようになっている。
+ * 
+ * そのようなログイン後盤面画面などのレスポンスや
+ * 対戦成績の取得・最良手の取得時に発生する
+ * リソースサーバーへのリクエストの仲介を実施するコントローラークラス
+ * @author shunyu
+ *
+ */
 @Controller
 public class SecurityController {
 
@@ -50,6 +59,11 @@ public class SecurityController {
 		this.aiOthelloService = aiOthelloService;
 	}
 	
+	/**
+	 * ウェブページ"about"の返却を行う。
+	 * @param type
+	 * @return
+	 */
 	@GetMapping("/othello/about")
 	public String getHomepageInfo(@RequestParam(name = "type") String type) {
 		
@@ -81,11 +95,22 @@ public class SecurityController {
 		
 	}
 
+	/**
+	 * JavaScriptから対戦成績のアップデートを行うリクエストを行う際に使われる。
+	 * リソースサーバーへのリクエストの仲介を実施している。
+	 * 
+	 * SecurityRestControllerクラスに移行すべき。
+	 * @param gameResultRequestResource
+	 */
 	@PostMapping("/ai-othello/v2/playresult/update")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void postGameResult(
 			@RequestBody GameResultRequestResource gameResultRequestResource
 			) {
+
+		// BODYには、ゲーム結果の妥当性の判定に必要なデータ（盤面推移）も含める。
+		// ログインされていない場合には、何もしない。
+		// ログインしている場合には、実際の妥当性判定を行うリソースサーバーに、リクエストを仲介する。
 		
 		System.out.println("/user/v2/playresult/update");
 		String gameresult = gameResultRequestResource.getGameresult();
@@ -93,7 +118,6 @@ public class SecurityController {
 		List<GameSituation> gameSituationList = gameResultRequestResource.getGameSituationList();
 		System.out.println("gameSituationList: "+gameSituationList);
 		
-		// SecurityRestControllerに移行する 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		boolean registeredUserFlag = false;
 		if (authentication instanceof AnonymousAuthenticationToken) {
@@ -102,9 +126,7 @@ public class SecurityController {
 			registeredUserFlag = true;
 		}
 		System.out.println("registeredUserFlag on result:"+registeredUserFlag);
-		// ここまで
 		
-		// SecurityRestControllerに移行する
 		System.out.println("othelloMode: ai");
 		if (registeredUserFlag) {
 
@@ -123,7 +145,6 @@ public class SecurityController {
 			
 			System.out.println("after post othello result");
 			System.out.println("playResult: "+playResult);
-			// ここまで
 		
 		} else {
 			System.out.println("unregistered: anonymous user");
@@ -132,6 +153,15 @@ public class SecurityController {
 		return; 
 	}
 	
+	/**
+	 * ウェブページ"result"の返却を行う。
+	 * @param othelloMode
+	 * @param type
+	 * @param blackNum
+	 * @param whiteNum
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/othello/result/{othelloMode}")
 	public String getOthelloResult(
 			@PathVariable("othelloMode") String othelloMode, 
@@ -140,16 +170,6 @@ public class SecurityController {
 			@RequestParam(name = "whiteNum") String whiteNum,
 			Model model
 			) {
-		
-		// SecurityRestControllerに移行する
-		// SecurityRestControllerで成績判定（POST）
-		// その際にBODYに正当性の判定に必要なデータ（棋譜）も含める。
-		// このPOSTはjavascript側から直接呼ぶ。
-		// ログインされていない場合には、何もせずに返す。
-		// ログインしている場合には、更新して返す。
-		//
-		// 以前のOseroWebApp（postGameResult）に具体的な実装があるので、それを確認しつつ実装を行う。
-		
 		
 		model.addAttribute("othelloMode", othelloMode);
 		model.addAttribute("type", type);
@@ -202,7 +222,15 @@ public class SecurityController {
 		
 	}
 	
-	
+	/**
+	 * ウェブページ"board"の返却を行う。
+	 * ログインユーザーの場合には、リソースサーバーに対して対戦成績を取得するリクエストを送り、
+	 * 対戦成績の実績の情報を取得して、ウェブページに埋め込む。
+	 * @param othelloMode
+	 * @param type
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/othello/board/graphic/{othelloMode}")
 	public String getOthelloBoardGraphic(@PathVariable("othelloMode") String othelloMode, @RequestParam(name = "type") String type, Model model) {
 		
@@ -269,6 +297,14 @@ public class SecurityController {
 		
 	}	
 
+	/**
+	 * ログインせずに、AIオセロ機能を利用する場合の、AIオセロサーバーへのアクセスの仲介を行う。
+	 * このメソッドでは、AIオセロサーバーにリクエストを送っている。
+	 * 
+	 * OthelloRestControllerクラスに移行すべき。
+	 * @param aiOthelloRequestResource
+	 * @return
+	 */
 	@PostMapping("/ai-othello/v1/best-move")
 	@ResponseBody
 	public AiOthelloResponseResource getBestMove(@RequestBody AiOthelloRequestResource aiOthelloRequestResource) {
@@ -278,6 +314,14 @@ public class SecurityController {
 		return aiOthelloResponseResource; 
 	}
 	
+	/**
+	 * ログインして、AIオセロ機能を利用する場合の、AIオセロサーバーへのアクセスの仲介を行う。
+	 * この場合、AIオセロサーバーの前段にはリソースサーバーを配置した状態で利用するので、
+	 * このメソッドでは、リソースサーバーにリクエストを送っている。
+	 * 
+	 * @param aiOthelloRequestResource
+	 * @return
+	 */
 	@PostMapping("/ai-othello/v2/best-move")
 	@ResponseBody
 	public LoginUserAiOthelloResponseResource getBestMoveIdAndBestMove(@RequestBody AiOthelloRequestResource aiOthelloRequestResource) {

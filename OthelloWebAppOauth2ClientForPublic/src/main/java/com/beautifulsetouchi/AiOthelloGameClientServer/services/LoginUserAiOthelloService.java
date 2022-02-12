@@ -8,6 +8,12 @@ import org.springframework.web.client.RestTemplate;
 import com.beautifulsetouchi.AiOthelloGameClientServer.models.AiOthelloRequestResource;
 import com.beautifulsetouchi.AiOthelloGameClientServer.models.LoginUserAiOthelloResponseResource;
 
+/**
+ * AIオセロサーバーの前段のリソースサーバーにリクエストを転送する場合に利用するクラス
+ * ログイン中の場合はこちら。
+ * @author shunyu
+ *
+ */
 @Service 
 public class LoginUserAiOthelloService {
 

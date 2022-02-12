@@ -1,5 +1,10 @@
 package com.beautifulsetouchi.AiOthelloGameClientServer.models;
 
+/**
+ * 盤面の位置（マス）の情報を格納するクラス
+ * @author shunyu
+ *
+ */
 public class BoardIndex {
     private int verticalIndex;
     private int horizontalIndex;

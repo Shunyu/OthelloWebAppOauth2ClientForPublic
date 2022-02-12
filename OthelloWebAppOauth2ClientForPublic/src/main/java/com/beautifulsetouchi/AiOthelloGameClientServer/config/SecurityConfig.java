@@ -10,6 +10,11 @@ import com.beautifulsetouchi.AiOthelloGameClientServer.logout.handler.OidcClient
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * ログイン処理やログアウト処理は認可サーバーで実施されるように設定している点に注意。
+ * @author shunyu
+ *
+ */
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity

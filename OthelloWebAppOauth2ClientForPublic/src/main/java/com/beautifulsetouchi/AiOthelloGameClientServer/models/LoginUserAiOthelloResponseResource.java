@@ -3,6 +3,12 @@ package com.beautifulsetouchi.AiOthelloGameClientServer.models;
 import lombok.Getter; 
 import lombok.Setter;
 
+/**
+ * リソースサーバーからの最適手のレスポンスを格納するクラス
+ * ログイン時に利用する。
+ * @author shunyu
+ *
+ */
 @Getter
 @Setter
 public class LoginUserAiOthelloResponseResource {

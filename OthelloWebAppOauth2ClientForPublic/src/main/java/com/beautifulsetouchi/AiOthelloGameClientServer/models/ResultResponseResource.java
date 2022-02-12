@@ -3,6 +3,12 @@ package com.beautifulsetouchi.AiOthelloGameClientServer.models;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 対戦成績に関するデータを格納するクラス
+ * 利用していない場合には、削除すべき。
+ * @author shunyu
+ *
+ */
 @Getter
 @Setter
 public class ResultResponseResource {

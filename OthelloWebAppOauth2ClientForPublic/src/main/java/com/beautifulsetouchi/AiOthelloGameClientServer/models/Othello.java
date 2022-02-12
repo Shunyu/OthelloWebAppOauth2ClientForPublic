@@ -4,6 +4,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 
+/**
+ * オセロの盤面の情報、およびオセロのルールなどを保持するクラス
+ * @author shunyu
+ *
+ */
 @Service
 @Scope(value="session")
 public class Othello {

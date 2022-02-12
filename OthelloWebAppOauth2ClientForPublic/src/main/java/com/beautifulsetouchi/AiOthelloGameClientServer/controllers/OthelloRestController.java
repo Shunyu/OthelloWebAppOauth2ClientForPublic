@@ -13,6 +13,12 @@ import com.beautifulsetouchi.AiOthelloGameClientServer.models.Othello;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+/**
+ * オセロゲームを利用する際にリクエストを送るURIを設定したコントローラークラス
+ * JavaScriptからこれらのURIにリクエストが送られながら、オセロゲームが進む。
+ * @author shunyu
+ *
+ */
 @RestController
 @Scope(value="session")
 public class OthelloRestController {
